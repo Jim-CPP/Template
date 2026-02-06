@@ -239,12 +239,9 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 {
-	MSG msg;
+	Message message;
 
 	WNDCLASSEX wcMain;
-
-	// Clear message structure
-	ZeroMemory( &msg, sizeof( msg ) );
 
 	// Clear main window class structure
 	ZeroMemory( &wcMain, sizeof( wcMain ) );
@@ -292,13 +289,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			UpdateWindow( hWndMain );
 
 			// Main message loop
-			while( GetMessage( &msg, NULL, 0, 0 ) > 0 )
+			while( message.Get() > 0 )
 			{
 				// Translate message
-				TranslateMessage( &msg );
+				message.Translate();
 
 				// Dispatch message
-				DispatchMessage( &msg );
+				message.Dispatch();
 
 			}; // End of main message loop
 
@@ -322,6 +319,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 
 	} // End of unable to register main window class
 
-	return msg.wParam;
+	return message;
 
 } // End of function WinMain

@@ -7,6 +7,8 @@
 #include "..\Common\Ascii.h"
 #include "..\Common\Common.h"
 
+#include "..\Classes\MessageClass.h"
+
 #include "Resource.h"
 
 #define MAIN_WINDOW_CLASS_NAME													"Main Template Window Class"
