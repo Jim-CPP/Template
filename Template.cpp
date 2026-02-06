@@ -20,7 +20,7 @@ int ShowAboutMessage( HWND hWndParent )
 	mbp.lpszText	= ABOUT_MESSAGE_TEXT;
 	mbp.lpszCaption	= ABOUT_MESSAGE_CAPTION;
 	mbp.dwStyle		= ( MB_OK | MB_USERICON );
-	mbp.lpszIcon	= MAIN_WINDOW_CLASS_ICON_NAME;
+	mbp.lpszIcon	= WINDOW_CLASS_CLASS_DEFAULT_ICON_NAME;
 
 	// Show message box
 	nResult = MessageBoxIndirect( &mbp );
@@ -241,25 +241,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 {
 	Message message;
 
-	WNDCLASSEX wcMain;
+	WindowClass mainWindowClass;
 
-	// Clear main window class structure
-	ZeroMemory( &wcMain, sizeof( wcMain ) );
-
-	// Initialise main window class structure
-	wcMain.cbSize			= sizeof( WNDCLASSEX );
-	wcMain.lpfnWndProc		= MainWindowProcedure;
-	wcMain.hInstance		= hInstance;
-	wcMain.lpszClassName	= MAIN_WINDOW_CLASS_NAME;
-	wcMain.style			= MAIN_WINDOW_CLASS_STYLE;
-	wcMain.hIcon			= MAIN_WINDOW_CLASS_ICON;
-	wcMain.hCursor			= MAIN_WINDOW_CLASS_CURSOR;
-	wcMain.hbrBackground	= MAIN_WINDOW_CLASS_BACKGROUND;
-	wcMain.lpszMenuName		= MAIN_WINDOW_CLASS_MENU_NAME;
-	wcMain.hIconSm			= MAIN_WINDOW_CLASS_ICON_SMALL;
+	// Initialise main window class
+	mainWindowClass.Init( MAIN_WINDOW_CLASS_NAME, MainWindowProcedure, hInstance );
 
 	// Register main window class
-	if( RegisterClassEx( &wcMain ) )
+	if( mainWindowClass.Register() )
 	{
 		// Successfully registered main window class
 		HWND hWndMain;

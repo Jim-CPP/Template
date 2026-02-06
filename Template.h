@@ -8,18 +8,11 @@
 #include "..\Common\Common.h"
 
 #include "..\Classes\MessageClass.h"
+#include "..\Classes\WindowClassClass.h"
 
 #include "Resource.h"
 
 #define MAIN_WINDOW_CLASS_NAME													"Main Template Window Class"
-
-#define MAIN_WINDOW_CLASS_STYLE													0
-#define MAIN_WINDOW_CLASS_ICON_NAME												IDI_APPLICATION
-#define MAIN_WINDOW_CLASS_ICON													LoadIcon( NULL, MAIN_WINDOW_CLASS_ICON_NAME )
-#define MAIN_WINDOW_CLASS_CURSOR												LoadCursor( NULL, IDC_ARROW )
-#define MAIN_WINDOW_CLASS_BACKGROUND											( HBRUSH )( COLOR_APPWORKSPACE + 1 )
-#define MAIN_WINDOW_CLASS_MENU_NAME												MAKEINTRESOURCE( IDR_MAIN_MENU )
-#define MAIN_WINDOW_CLASS_ICON_SMALL											LoadIcon( NULL, MAIN_WINDOW_CLASS_ICON_NAME )
 
 #define MAIN_WINDOW_EXTENDED_STYLE												WS_EX_CLIENTEDGE
 #define MAIN_WINDOW_STYLE														WS_OVERLAPPEDWINDOW
