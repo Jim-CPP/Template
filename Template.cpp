@@ -4,6 +4,9 @@
 
 #include <windows.h>
 
+// Global variables
+StatusBarWindow g_statusBarWindow;
+
 BOOL ArgumentFunction( LPCTSTR lpszArgument )
 {
 	// Display argument
@@ -66,6 +69,19 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get font
 			font.Get( DEFAULT_GUI_FONT );
 
+			// Create status bar window
+			if( g_statusBarWindow.Create( hWndMain, hInstance, STATUS_BAR_WINDOW_CLASS_DEFAULT_TEXT ) )
+			{
+				// Successfully created status bar window
+
+				// Set status bar window font
+				g_statusBarWindow.SetFont( font );
+
+				// Set status bar window text
+				g_statusBarWindow.SetText( "Hello" );
+
+			} // End of successfully created status bar window
+
 			// Break out of switch
 			break;
 
@@ -79,6 +95,9 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Store client width and height
 			nClientWidth	= ( int )LOWORD( lParam );
 			nClientHeight	= ( int )HIWORD( lParam );
+
+			// Size status bar window
+			g_statusBarWindow.Size();
 
 			// Break out of switch
 			break;

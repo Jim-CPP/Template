@@ -16,6 +16,8 @@
 #include "..\Classes\WindowClass.h"
 #include "..\Classes\WindowClassClass.h"
 
+#include "..\Classes\StatusBarWindowClass.h"
+
 #include "Resource.h"
 
 #define MAIN_WINDOW_CLASS_NAME													"Main Template Window Class"
