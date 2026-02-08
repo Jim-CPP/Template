@@ -7,6 +7,7 @@
 #include "..\Common\Ascii.h"
 #include "..\Common\Common.h"
 
+#include "..\Classes\MenuClass.h"
 #include "..\Classes\MessageClass.h"
 #include "..\Classes\WindowClass.h"
 #include "..\Classes\WindowClassClass.h"
@@ -19,10 +20,6 @@
 
 #define MAIN_WINDOW_MINIMUM_WIDTH												320
 #define MAIN_WINDOW_MINIMUM_HEIGHT												200
-
-#define SYSTEM_MENU_SEPARATOR_ITEM_POSITION										5
-#define SYSTEM_MENU_ABOUT_ITEM_POSITION											6
-#define SYSTEM_MENU_ABOUT_ITEM_TEXT												"About"
 
 #define ABOUT_MESSAGE_TEXT														"Template\r\n"						\
 																				"\r\n"								\
