@@ -69,14 +69,11 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 		case WM_GETMINMAXINFO:
 		{
 			// A get min max info message
-			MINMAXINFO FAR *lpMinMaxInfo;
+			MinMaxInfo minMaxInfo;
 
-			// Get min max info structure
-			lpMinMaxInfo = ( MINMAXINFO FAR * )lParam;
-
-			// Update min max info structure
-			lpMinMaxInfo->ptMinTrackSize.x = MAIN_WINDOW_MINIMUM_WIDTH;
-			lpMinMaxInfo->ptMinTrackSize.y = MAIN_WINDOW_MINIMUM_HEIGHT;
+			// Update min max info
+			minMaxInfo.Update( lParam );
+			// Note that this limits the minimum size of the window
 
 			// Break out of switch
 			break;
