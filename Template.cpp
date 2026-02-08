@@ -13,6 +13,15 @@ BOOL ArgumentFunction( LPCTSTR lpszArgument )
 
 } // End of function ArgumentFunction
 
+BOOL DropFunction( LPCTSTR lpszFilePath )
+{
+	// Display argument
+	MessageBox( NULL, lpszFilePath, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
+
+	return TRUE;
+
+} // End of function DropFunction
+
 int ShowAboutMessage( HWND hWndParent )
 {
 	int nResult = 0;
@@ -88,6 +97,20 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			break;
 
 		} // End of a get min max info message
+		case WM_DROPFILES:
+		{
+			// A drop files message
+			//
+			// Note that window needs extended style WS_EX_ACCEPTFILES for this to work
+			Drop drop;
+
+			// Handle dropped files
+			drop.ProcessFiles( wParam, &DropFunction );
+
+			// Break out of switch
+			break;
+
+		} // End of a drop files message
 		case WM_COMMAND:
 		{
 			// A command message
