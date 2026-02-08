@@ -4,6 +4,15 @@
 
 #include <windows.h>
 
+BOOL ArgumentFunction( LPCTSTR lpszArgument )
+{
+	// Display argument
+	MessageBox( NULL, lpszArgument, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
+
+	return TRUE;
+
+} // End of function ArgumentFunction
+
 int ShowAboutMessage( HWND hWndParent )
 {
 	int nResult = 0;
@@ -254,6 +263,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 		{
 			// Successfully created main window
 			Menu systemMenu;
+			ArgumentList argumentList;
 
 			// Get system menu
 			systemMenu = mainWindow.GetSystemMenu( FALSE );
@@ -263,6 +273,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 
 			// Add about item to system menu
 			systemMenu.InsertItem( MENU_CLASS_SYSTEM_MENU_ABOUT_ITEM_POSITION, MENU_CLASS_SYSTEM_MENU_ABOUT_ITEM_TEXT, IDM_HELP_ABOUT );
+
+			// Get argument list
+			if( argumentList.Get() )
+			{
+				// Successfully got argument list
+
+				// Process arguments
+				argumentList.ProcessArguments( &ArgumentFunction );
+
+			} // End of successfully got argument list
 
 			// Show main window
 			mainWindow.Show( nCmdShow );

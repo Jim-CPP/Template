@@ -7,6 +7,7 @@
 #include "..\Common\Ascii.h"
 #include "..\Common\Common.h"
 
+#include "..\Classes\ArgumentListClass.h"
 #include "..\Classes\FontClass.h"
 #include "..\Classes\MenuClass.h"
 #include "..\Classes\MessageClass.h"
