@@ -6,6 +6,7 @@ windres Resource.rc -o Resource.o
 
 g++ -mwindows -m64 -static -Wall -Wextra Template.cpp ^
  ^
+ ..\Classes\FontClass.cpp ^
  ..\Classes\MenuClass.cpp ^
  ..\Classes\MessageClass.cpp ^
  ..\Classes\WindowClass.cpp ^

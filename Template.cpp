@@ -40,13 +40,13 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 		{
 			// A create message
 			HINSTANCE hInstance;
-			HFONT hFont;
+			Font font;
 
 			// Get instance
 			hInstance = ( ( LPCREATESTRUCT )lParam )->hInstance;
 
 			// Get font
-			hFont = ( HFONT )GetStockObject( DEFAULT_GUI_FONT );
+			font.Get( DEFAULT_GUI_FONT );
 
 			// Break out of switch
 			break;
