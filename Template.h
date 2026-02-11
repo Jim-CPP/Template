@@ -16,6 +16,7 @@
 #include "..\Classes\WindowClass.h"
 #include "..\Classes\WindowClassClass.h"
 
+#include "..\Classes\ListBoxWindowClass.h"
 #include "..\Classes\StatusBarWindowClass.h"
 
 #include "Resource.h"

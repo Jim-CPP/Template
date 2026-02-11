@@ -5,12 +5,29 @@
 #include <windows.h>
 
 // Global variables
-StatusBarWindow g_statusBarWindow;
+static ListBoxWindow g_listBoxWindow;
+static StatusBarWindow g_statusBarWindow;
+
+BOOL ListBoxWindowSelectionChangeFunction( LPCTSTR lpszSelectedItemText )
+{
+	// Show selected item text on status bar window
+	return g_statusBarWindow.SetText( lpszSelectedItemText );
+
+} // End of function ListBoxWindowSelectionChangeFunction
+
+BOOL ListBoxWindowDoubleClickFunction( LPCTSTR lpszSelectedItemText )
+{
+	// Display selected item text
+	MessageBox( NULL, lpszSelectedItemText, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
+
+	return TRUE;
+
+} // End of function ListBoxWindowDoubleClickFunction
 
 BOOL ArgumentFunction( LPCTSTR lpszArgument )
 {
-	// Display argument
-	MessageBox( NULL, lpszArgument, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
+	// Add argument to list box window
+	g_listBoxWindow.AddString( lpszArgument );
 
 	return TRUE;
 
@@ -18,8 +35,8 @@ BOOL ArgumentFunction( LPCTSTR lpszArgument )
 
 BOOL DropFunction( LPCTSTR lpszFilePath )
 {
-	// Display argument
-	MessageBox( NULL, lpszFilePath, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );
+	// Add file to list box window
+	g_listBoxWindow.AddString( lpszFilePath );
 
 	return TRUE;
 
@@ -69,28 +86,49 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get font
 			font.Get( DEFAULT_GUI_FONT );
 
-			// Create status bar window
-			if( g_statusBarWindow.Create( hWndMain, hInstance, STATUS_BAR_WINDOW_CLASS_DEFAULT_TEXT ) )
+			// Create list box window
+			if( g_listBoxWindow.Create( hWndMain, hInstance, LIST_BOX_WINDOW_CLASS_DEFAULT_TEXT ) )
 			{
-				// Successfully created status bar window
+				// Successfully created list box window
 
-				// Set status bar window font
-				g_statusBarWindow.SetFont( font );
+				// Set list box window font
+				g_listBoxWindow.SetFont( font );
 
-				// Set status bar window text
-				g_statusBarWindow.SetText( "Hello" );
+				// Create status bar window
+				if( g_statusBarWindow.Create( hWndMain, hInstance, STATUS_BAR_WINDOW_CLASS_DEFAULT_TEXT ) )
+				{
+					// Successfully created status bar window
 
-			} // End of successfully created status bar window
+					// Set status bar window font
+					g_statusBarWindow.SetFont( font );
+
+				} // End of successfully created status bar window
+
+			} // End of successfully created list box window
 
 			// Break out of switch
 			break;
 
 		} // End of a create message
+		case WM_ACTIVATE:
+		{
+			// An activate message
+
+			// Focus on list box window
+			g_listBoxWindow.SetFocus();
+
+			// Break out of switch
+			break;
+
+		} // End of an activate message
 		case WM_SIZE:
 		{
 			// A size message
 			int nClientWidth;
 			int nClientHeight;
+			RECT rcStatusBar;
+			int nStatusBarWindowHeight;
+			int nListBoxWindowHeight;
 
 			// Store client width and height
 			nClientWidth	= ( int )LOWORD( lParam );
@@ -98,6 +136,16 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 
 			// Size status bar window
 			g_statusBarWindow.Size();
+
+			// Get status bar window size
+			g_statusBarWindow.GetWindowRect( &rcStatusBar );
+
+			// Calculate window sizes
+			nStatusBarWindowHeight	= ( rcStatusBar.bottom - rcStatusBar.top );
+			nListBoxWindowHeight	= ( nClientHeight - nStatusBarWindowHeight );
+
+			// Move control windows
+			g_listBoxWindow.Move( 0, 0, nClientWidth, nListBoxWindowHeight );
 
 			// Break out of switch
 			break;
@@ -163,8 +211,23 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 				{
 					// Default command
 
-					// Call default procedure
-					lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+					// See if command message is from list box window
+					if( ( HWND )lParam == g_listBoxWindow )
+					{
+						// Command message is from list box window
+
+						// Handle command message from list box window
+						lr = g_listBoxWindow.HandleCommandMessage( hWndMain, wParam, lParam, &ListBoxWindowSelectionChangeFunction, &ListBoxWindowDoubleClickFunction );
+
+					} // End of command message is from list box window
+					else
+					{
+						// Command message is not from list box window
+
+						// Call default procedure
+						lr = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+
+					} // End of command message is not from list box window
 
 					// Break out of switch
 					break;

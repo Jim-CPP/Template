@@ -15,6 +15,7 @@ g++ -mwindows -m64 -static -Wall -Wextra Template.cpp ^
  ..\Classes\WindowClass.cpp ^
  ..\Classes\WindowClassClass.cpp ^
  ^
+ ..\Classes\ListBoxWindowClass.cpp ^
  ..\Classes\StatusBarWindowClass.cpp ^
  ^
  Resource.o -o Template.exe
