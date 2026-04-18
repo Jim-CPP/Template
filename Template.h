@@ -17,6 +17,7 @@
 #include "..\Classes\WindowClassClass.h"
 
 #include "..\Classes\ListBoxWindowClass.h"
+#include "..\Classes\SplashWindowClass.h"
 #include "..\Classes\StatusBarWindowClass.h"
 
 #include "Resource.h"
@@ -29,4 +30,4 @@
 																				"\r\n"								\
 																				"Written by Jim Smith\r\n"			\
 																				"\r\n"								\
-																				"February 2026"
+																				"April 2026"
