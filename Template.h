@@ -17,3 +17,6 @@
 #define MAIN_WINDOW_EXTENDED_STYLE												WS_EX_CLIENTEDGE
 #define MAIN_WINDOW_TEXT														"Template"
 #define MAIN_WINDOW_STYLE														WS_OVERLAPPEDWINDOW
+
+#define MAIN_WINDOW_MINIMUM_WIDTH												320
+#define MAIN_WINDOW_MINIMUM_HEIGHT												200

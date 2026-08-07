@@ -9,6 +9,60 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 	// Select message
 	switch( uMessage )
 	{
+		case WM_CREATE:
+		{
+			// A create message
+			HINSTANCE hInstance;
+			HFONT hFont;
+
+			// Get instance
+			hInstance = ( ( LPCREATESTRUCT )lParam )->hInstance;
+
+			// Get font
+			hFont = ( HFONT )GetStockObject( DEFAULT_GUI_FONT );
+
+			// Break out of switch
+			break;
+
+		} // End of a create message
+		case WM_SIZE:
+		{
+			// A size message
+			int nClientWidth;
+			int nClientHeight;
+
+			// Store client size
+			nClientWidth	= LOWORD( lParam );
+			nClientHeight	= HIWORD( lParam );
+
+			// Break out of switch
+			break;
+
+		} // End of a size message
+		case WM_ACTIVATE:
+		{
+			// An activate message
+
+			// Break out of switch
+			break;
+
+		} // End of an activate message
+		case WM_GETMINMAXINFO:
+		{
+			// A get min max info message
+			MINMAXINFO FAR *lpMinMaxInfo;
+
+			// Get min max info structure
+			lpMinMaxInfo = ( MINMAXINFO FAR * )lParam;
+
+			// Update min max info structure
+			lpMinMaxInfo->ptMinTrackSize.x = MAIN_WINDOW_MINIMUM_WIDTH;
+			lpMinMaxInfo->ptMinTrackSize.y = MAIN_WINDOW_MINIMUM_HEIGHT;
+
+			// Break out of switch
+			break;
+
+		} // End of a get min max info message
 		case WM_CLOSE:
 		{
 			// A close message
