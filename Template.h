@@ -4,6 +4,7 @@
 
 #include <windows.h>
 
+#include "ListBoxWindow.h"
 #include "StatusBarWindow.h"
 
 #define MAIN_WINDOW_CLASS_NAME													"Main Template Window Class"

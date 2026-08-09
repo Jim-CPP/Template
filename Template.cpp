@@ -21,15 +21,22 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get font
 			hFont = ( HFONT )GetStockObject( DEFAULT_GUI_FONT );
 
-			// Create status bar window
-			if( StatusBarWindowCreate( hWndMain, hInstance, hFont ) )
+			// Create list box window
+			if( ListBoxWindowCreate( hWndMain, hInstance, hFont ) )
 			{
-				// Successfully created status bar window
+				// Successfully created list box window
 
-				// Set status bar window text
-				StatusBarWindowSetText( "Hello" );
+				// Create status bar window
+				if( StatusBarWindowCreate( hWndMain, hInstance, hFont ) )
+				{
+					// Successfully created status bar window
 
-			} // End of successfully created status bar window
+					// Set status bar window text
+					StatusBarWindowSetText( "Hello" );
+
+				} // End of successfully created status bar window
+
+			} // End of successfully created list box window
 
 			// Break out of switch
 			break;
@@ -40,13 +47,21 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// A size message
 			int nClientWidth;
 			int nClientHeight;
+			int nStatusBarWindowHeight;
+			int nListBoxWindowHeight;
 
 			// Store client size
 			nClientWidth	= LOWORD( lParam );
 			nClientHeight	= HIWORD( lParam );
 
 			// Size status bar window
-			StatusBarWindowSize();
+			nStatusBarWindowHeight = StatusBarWindowSize();
+
+			// Calculate list box window height
+			nListBoxWindowHeight = ( nClientHeight - nStatusBarWindowHeight );
+
+			// Move list box window
+			ListBoxWindowMove( 0, 0, nClientWidth, nListBoxWindowHeight );
 
 			// Break out of switch
 			break;
@@ -159,6 +174,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 
 			// Update main window
 			UpdateWindow( hWndMain );
+
+			// Populate list box window
+			ListBoxWindowPopulate();
 
 			// Main message loop
 			while( GetMessage( &msg, NULL, 0, 0 ) > 0 )
