@@ -21,6 +21,16 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Get font
 			hFont = ( HFONT )GetStockObject( DEFAULT_GUI_FONT );
 
+			// Create status bar window
+			if( StatusBarWindowCreate( hWndMain, hInstance, hFont ) )
+			{
+				// Successfully created status bar window
+
+				// Set status bar window text
+				StatusBarWindowSetText( "Hello" );
+
+			} // End of successfully created status bar window
+
 			// Break out of switch
 			break;
 
@@ -34,6 +44,9 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			// Store client size
 			nClientWidth	= LOWORD( lParam );
 			nClientHeight	= HIWORD( lParam );
+
+			// Size status bar window
+			StatusBarWindowSize();
 
 			// Break out of switch
 			break;

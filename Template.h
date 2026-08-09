@@ -4,6 +4,8 @@
 
 #include <windows.h>
 
+#include "StatusBarWindow.h"
+
 #define MAIN_WINDOW_CLASS_NAME													"Main Template Window Class"
 
 #define MAIN_WINDOW_CLASS_STYLE													0
