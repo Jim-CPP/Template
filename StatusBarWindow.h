@@ -5,6 +5,9 @@
 #include <windows.h>
 #include <commctrl.h>
 
+#include "Ascii.h"
+#include "Common.h"
+
 #define STATUS_BAR_WINDOW_CLASS_NAME											STATUSCLASSNAME
 
 #define STATUS_BAR_WINDOW_EXTENDED_STYLE										0

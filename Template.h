@@ -4,6 +4,9 @@
 
 #include <windows.h>
 
+#include "Ascii.h"
+#include "Common.h"
+
 #include "ListBoxWindow.h"
 #include "StatusBarWindow.h"
 

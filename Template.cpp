@@ -31,9 +31,6 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 				{
 					// Successfully created status bar window
 
-					// Set status bar window text
-					StatusBarWindowSetText( "Hello" );
-
 				} // End of successfully created status bar window
 
 			} // End of successfully created list box window
@@ -168,6 +165,10 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 		if( hWndMain )
 		{
 			// Successfully created main window
+			int nItemCount;
+
+			// Allocate string memory
+			LPTSTR lpszStatusMessage = new char[ STRING_LENGTH + sizeof( char ) ];
 
 			// Show main window
 			ShowWindow( hWndMain, nCmdShow );
@@ -176,7 +177,13 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 			UpdateWindow( hWndMain );
 
 			// Populate list box window
-			ListBoxWindowPopulate();
+			nItemCount = ListBoxWindowPopulate();
+
+			// Format status message
+			wsprintf( lpszStatusMessage, LIST_BOX_WINDOW_POPULATE_STATUS_MESSAGE_FORMAT_STRING, nItemCount );
+
+			// Show status message on status bar window
+			StatusBarWindowSetText( lpszStatusMessage );
 
 			// Main message loop
 			while( GetMessage( &msg, NULL, 0, 0 ) > 0 )
@@ -188,6 +195,9 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 				DispatchMessage( &msg );
 
 			}; // End of main message loop
+
+			// Free string memory
+			delete [] lpszStatusMessage;
 
 		} // End of successfully created main window
 
