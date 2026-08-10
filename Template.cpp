@@ -88,6 +88,46 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			break;
 
 		} // End of a get min max info message
+		case WM_COMMAND:
+		{
+			// A command message
+
+			// Select command
+			switch( LOWORD( wParam ) )
+			{
+				default:
+				{
+					// Default command
+
+					// See if command message is from list box window
+					if( IsListBoxWindow( ( HWND )lParam ) )
+					{
+						// Command message is from list box window
+
+						// Handle command message from list box window
+						lResult = ListBoxWindowHandleCommandMessage( hWndMain, wParam, lParam, &StatusBarWindowSetText );
+
+					} // End of command message is from list box window
+					else
+					{
+						// Command message is not from list box window
+
+						// Call default window procedure
+						lResult = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+
+					} // End of command message is not from list box window
+
+					// Break out of switch
+					break;
+
+				} // End of default command
+
+			}; // End of selection for command
+
+			// Break out of switch
+			break;
+
+		} // End of a command message
 		case WM_CLOSE:
 		{
 			// A close message

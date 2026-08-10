@@ -5,6 +5,24 @@
 // Global variables
 static HWND g_hWndListBox;
 
+BOOL IsListBoxWindow( HWND hWndSupplied )
+{
+	BOOL bResult = FALSE;
+
+	// See if supplied window is list box window
+	if( hWndSupplied == g_hWndListBox )
+	{
+		// Supplied window is list box window
+
+		// Update return value
+		bResult = TRUE;
+
+	} // End of supplied window is list box window
+
+	return bResult;
+
+} // End of function IsListBoxWindow
+
 int ListBoxWindowAddText( LPCTSTR lpszText )
 {
 	// Add text to list box window
@@ -35,6 +53,87 @@ BOOL ListBoxWindowCreate( HWND hWndParent, HINSTANCE hInstance, HFONT hFont )
 	return bResult;
 
 } // End of function ListBoxWindowCreate
+
+LRESULT ListBoxWindowHandleCommandMessage( HWND hWndMain, WPARAM wParam, LPARAM lParam, BOOL( *lpStatusFunction )( LPCTSTR lpszItemText ) )
+{
+	LRESULT lResult = 0;
+
+	// Select list box window notification code
+	switch( HIWORD( wParam ) )
+	{
+		case LBN_DBLCLK:
+		{
+			// A list box window double click notification code
+			int nSelectedItem;
+
+			// Allocate string memory
+			LPTSTR lpszSelected = new char[ STRING_LENGTH + sizeof( char ) ];
+
+			// Get selected item
+			nSelectedItem = SendMessage( g_hWndListBox, LB_GETCURSEL, ( WPARAM )NULL, ( LPARAM )NULL );
+
+			// Get selected item text
+			if( SendMessage( g_hWndListBox, LB_GETTEXT, ( WPARAM )nSelectedItem, ( LPARAM )lpszSelected ) )
+			{
+				// Successfully got selected item text
+
+				// Display selected item text
+				MessageBox( hWndMain, lpszSelected, INFORMATION_MESSAGE_CAPTION, ( MB_OK | MB_ICONINFORMATION ) );;
+
+			} // End of successfully got selected item text
+
+			// Free string memory
+			delete [] lpszSelected;
+
+			// Break out of switch
+			break;
+
+		} // End of a list box window double click notification code
+		case LBN_SELCHANGE:
+		{
+			// A list box window selection change notification code
+			int nSelectedItem;
+
+			// Allocate string memory
+			LPTSTR lpszSelected = new char[ STRING_LENGTH + sizeof( char ) ];
+
+			// Get selected item
+			nSelectedItem = SendMessage( g_hWndListBox, LB_GETCURSEL, ( WPARAM )NULL, ( LPARAM )NULL );
+
+			// Get selected item text
+			if( SendMessage( g_hWndListBox, LB_GETTEXT, ( WPARAM )nSelectedItem, ( LPARAM )lpszSelected ) )
+			{
+				// Successfully got selected item text
+
+				// Call status function
+				( *lpStatusFunction )( lpszSelected );
+
+			} // End of successfully got selected item text
+
+			// Free string memory
+			delete [] lpszSelected;
+
+			// Break out of switch
+			break;
+
+		} // End of a list box window selection change notification code
+		default:
+		{
+			// Default list box window notification code
+
+			// Call default procedure
+			lResult = DefWindowProc( hWndMain, WM_COMMAND, wParam, lParam );
+
+			// Break out of switch
+			break;
+
+		} // End of default list box window notification code
+
+	}; // End of selection for list box window notification code
+
+	return lResult;
+
+} // End of function ListBoxWindowHandleCommandMessage
 
 BOOL ListBoxWindowMove( int nLeft, int nTop, int nWidth, int nHeight )
 {
