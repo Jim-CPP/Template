@@ -2,6 +2,31 @@
 
 #include "Template.h"
 
+int ShowAboutMessage( HWND hWndOwner )
+{
+	int nResult;
+
+	MSGBOXPARAMS msgBoxParams;
+
+	// Clear message box parameter structure
+	ZeroMemory( &msgBoxParams, sizeof( msgBoxParams ) );
+
+	// Initialise message box parameter structure
+	msgBoxParams.cbSize			= sizeof( MSGBOXPARAMS );
+	msgBoxParams.hwndOwner		= hWndOwner;
+	msgBoxParams.hInstance		= NULL; // Must be null to use standard system-defined icons
+	msgBoxParams.lpszText		= ABOUT_MESSAGE_TEXT;
+	msgBoxParams.lpszCaption	= ABOUT_MESSAGE_CAPTION;
+	msgBoxParams.dwStyle		= ( MB_OK | MB_USERICON );
+	msgBoxParams.lpszIcon		= MAIN_WINDOW_CLASS_ICON_NAME;
+
+	// Show message box
+	nResult = MessageBoxIndirect( &msgBoxParams );
+
+	return nResult;
+
+} // End of function ShowAboutMessage
+
 LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wParam, LPARAM lParam )
 {
 	LRESULT lResult = 0;
@@ -128,6 +153,42 @@ LRESULT CALLBACK MainWindowProcedure( HWND hWndMain, UINT uMessage, WPARAM wPara
 			break;
 
 		} // End of a command message
+		case WM_SYSCOMMAND:
+		{
+			// A system command message
+
+			// Select system command
+			switch( LOWORD( wParam ) )
+			{
+				case SYSTEM_MENU_ABOUT_ITEM_ID:
+				{
+					// A help about system command
+
+					// Show about message
+					ShowAboutMessage( hWndMain );
+
+					// Break out of switch
+					break;
+
+				} // End of a help about system command
+				default:
+				{
+					// Default system command
+
+					// Call default procedure
+					lResult = DefWindowProc( hWndMain, uMessage, wParam, lParam );
+
+					// Break out of switch
+					break;
+
+				} // End of default system command
+
+			}; // End of selection for system command
+
+			// Break out of switch
+			break;
+
+		} // End of a system command message
 		case WM_CLOSE:
 		{
 			// A close message
@@ -206,6 +267,16 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE, LPTSTR, int nCmdShow )
 		{
 			// Successfully created main window
 			int nItemCount;
+			HMENU hMenuSystem;
+
+			// Get system menu
+			hMenuSystem = GetSystemMenu( hWndMain, FALSE );
+
+			// Add separator item to system menu
+			InsertMenu( hMenuSystem, SYSTEM_MENU_SEPARATOR_ITEM_POSITION, ( MF_BYPOSITION | MF_SEPARATOR ), 0, NULL );
+
+			// Add about item to system menu
+			InsertMenu( hMenuSystem, SYSTEM_MENU_ABOUT_ITEM_POSITION, MF_BYPOSITION, SYSTEM_MENU_ABOUT_ITEM_ID, SYSTEM_MENU_ABOUT_ITEM_TEXT );
 
 			// Allocate string memory
 			LPTSTR lpszStatusMessage = new char[ STRING_LENGTH + sizeof( char ) ];
